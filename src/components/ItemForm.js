@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState }from "react";
 import { v4 as uuid } from "uuid";
 
-function ItemForm(props) {
+function ItemForm({onItemFormSubmit}) {
+
+  const [newCategory, setCategory] = useState({
+    id: '',
+    name:'',
+  category: 'Produce'})
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(onItemFormSubmit)
+    console.log(event.target.name.value);
+    console.log(event.target.category.value);
+    setCategory({
+      id:  uuid(),
+      name: (event.target.name.value),
+      category: (event.target.category.value),
+    })
+    onItemFormSubmit(newCategory)
+  }
+
+
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input type="text" name="name" />
@@ -20,7 +40,9 @@ function ItemForm(props) {
 
       <button type="submit">Add to List</button>
     </form>
+    
   );
+  
 }
 
 export default ItemForm;
